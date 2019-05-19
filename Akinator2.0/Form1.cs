@@ -15,9 +15,6 @@ namespace Akinator2._0
     public partial class Form1 : Form
     {
         private List<Questions> questions;
-        //Unnecessary
-        private List<Answers> answers;
-
         private int numOfAnswers = 0;
         private AddForm addForm;
         private Questions q1;
@@ -29,7 +26,6 @@ namespace Akinator2._0
         {
             InitializeComponent();
             questions = DataBaseUtil.LoadQuestions();
-            answers = DataBaseUtil.LoadAnswers();
 
             label1.AutoSize = true;
             label2.AutoSize = true;
@@ -70,7 +66,7 @@ namespace Akinator2._0
                     addForm = new AddForm(this, numOfAnswers, q1: q1);
                     addForm.Show();
                     this.Hide();
-                    MessageBox.Show("Add second stat");
+                    MessageBox.Show("Добавьте второй признак");
                 }
                 else
                 {
@@ -79,7 +75,7 @@ namespace Akinator2._0
                         addForm = new AddForm(this, numOfAnswers, q1: q1, q2: q2);
                         addForm.Show();
                         this.Hide();
-                        MessageBox.Show("Add both stats");
+                        MessageBox.Show("Добавьте 2 признака");
                     }
                 }
             }
@@ -111,7 +107,7 @@ namespace Akinator2._0
                     addForm = new AddForm(this, numOfAnswers, q1, q2);
                     addForm.Show();
                     this.Hide();
-                    MessageBox.Show("Add answer");
+                    MessageBox.Show("Добавьте ответ");
 
                 }
                 else

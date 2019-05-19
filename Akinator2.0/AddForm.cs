@@ -39,7 +39,7 @@ namespace Akinator2._0
                         }
                         catch (MySql.Data.MySqlClient.MySqlException ex)
                         {
-                            MessageBox.Show("Так нельзя!");
+                            MessageBox.Show("Такой объект уже есть!\n" + ex.ToString());
                         }
 
                     }
@@ -70,7 +70,7 @@ namespace Akinator2._0
                             }
                             catch (MySql.Data.MySqlClient.MySqlException ex)
                             {
-                                MessageBox.Show("Так нельзя!");
+                                MessageBox.Show("Один из вводимых параметров уже есть в базе данных!\n" + ex.ToString());
                             }
 
                         }
@@ -103,7 +103,7 @@ namespace Akinator2._0
                             }                
                             catch (MySql.Data.MySqlClient.MySqlException ex)
                             {
-                                MessageBox.Show("Такой объект уже есть!");
+                                MessageBox.Show("Один из вводимых параметров уже есть в базе!\n" + ex.ToString());
                             }
 
                         }
