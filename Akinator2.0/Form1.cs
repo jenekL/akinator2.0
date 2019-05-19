@@ -22,6 +22,8 @@ namespace Akinator2._0
         private AddForm addForm;
         private Questions q1;
         private Questions q2;
+        private Questions lastAnsweredQuestion;
+        
 
         public Form1()
         {
@@ -29,11 +31,13 @@ namespace Akinator2._0
             questions = DataBaseUtil.LoadQuestions();
             answers = DataBaseUtil.LoadAnswers();
 
-            label1.Text = "Вопрос:";
             label1.AutoSize = true;
             label2.AutoSize = true;
 
-            play();
+            yesButton.Click += yesButton_Click;
+            NoButton.Click += NoButton_Click;
+
+            restart();
         }
 
         public void restart()
@@ -42,6 +46,7 @@ namespace Akinator2._0
             questions = DataBaseUtil.LoadQuestions();
             q1 = null;
             q2 = null;
+            lastAnsweredQuestion = null;
             numOfAnswers = 0;
             play();
         }
@@ -51,50 +56,11 @@ namespace Akinator2._0
             if(questions.Count != 0)
             {
                 int nextItem = new Random().Next(questions.Count);
-                var question = questions[nextItem];
+                lastAnsweredQuestion = questions[nextItem];
                 questions.RemoveAt(nextItem);
-                label2.Text = question.Question;
+                label2.Text = lastAnsweredQuestion.Question;
 
-                yesButton.Click += (object sender, EventArgs e) =>
-                {
-                    numOfAnswers++;
-                    if(numOfAnswers == 1)
-                    {
-                        q1 = question;
-                    }
-                    else
-                    {
-                        if (numOfAnswers == 2)
-                        {
-                            q2 = question;
-                        }
-                    }
-                    if(numOfAnswers == 2)
-                    {
-                        if(DataBaseUtil.LoadAnswerByTwoQuestions(q1, q2) == null)
-                        {
-                            addForm = new AddForm(this, numOfAnswers, q1, q2);
-                            addForm.Show();
-                            this.Hide();
-                            MessageBox.Show("Add answer");
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("У вас: " + DataBaseUtil.LoadAnswerByTwoQuestions(q1, q2).Answer);
-                            restart();
-                        }
-                    }
-                    else
-                    {
-                        play();
-                    }
-                };
-                NoButton.Click += (object sender, EventArgs e) =>
-                {
-                   play();
-                };
-
+                
             }
             else
             {
@@ -116,6 +82,47 @@ namespace Akinator2._0
                         MessageBox.Show("Add both stats");
                     }
                 }
+            }
+        }
+
+        private void NoButton_Click(object sender, EventArgs e)
+        {
+            play();
+        }
+
+        private void yesButton_Click(object sender, EventArgs e)
+        {
+            numOfAnswers++;
+            if (numOfAnswers == 1)
+            {
+                q1 = lastAnsweredQuestion;
+            }
+            else
+            {
+                if (numOfAnswers == 2)
+                {
+                    q2 = lastAnsweredQuestion;
+                }
+            }
+            if (numOfAnswers == 2)
+            {
+                if (DataBaseUtil.LoadAnswerByTwoQuestions(q1, q2) == null)
+                {
+                    addForm = new AddForm(this, numOfAnswers, q1, q2);
+                    addForm.Show();
+                    this.Hide();
+                    MessageBox.Show("Add answer");
+
+                }
+                else
+                {
+                    MessageBox.Show("У вас: " + DataBaseUtil.LoadAnswerByTwoQuestions(q1, q2).Answer);
+                    restart();
+                }
+            }
+            else
+            {
+                play();
             }
         }
 

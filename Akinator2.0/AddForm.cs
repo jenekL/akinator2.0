@@ -31,10 +31,17 @@ namespace Akinator2._0
                 {
                     if (answerText.Text != "")
                     {
-                        DataBaseUtil.SaveAnswer(new Answers(answerText.Text, q1.Id, q2.Id));
-                        mainForm.restart();
-                        mainForm.Show();
-                        this.Close();
+                        try { 
+                            DataBaseUtil.SaveAnswer(new Answers(answerText.Text, q1.Id, q2.Id));
+                            mainForm.restart();
+                            mainForm.Show();
+                            this.Close();
+                        }
+                        catch (MySql.Data.MySqlClient.MySqlException ex)
+                        {
+                            MessageBox.Show("Так нельзя!");
+                        }
+
                     }
                     else
                     {
@@ -53,12 +60,19 @@ namespace Akinator2._0
                     {
                         if (answerText.Text != "" && question2Text.Text != "")
                         {
-                            Questions newQuestion = new Questions(DataBaseUtil.getQuestionMaxID() + 1, question2Text.Text);
-                            DataBaseUtil.SaveQuestion(newQuestion);
-                            DataBaseUtil.SaveAnswer(new Answers(answerText.Text, q1.Id, newQuestion.Id));
-                            mainForm.restart();
-                            mainForm.Show();
-                            this.Close();
+                            try { 
+                                Questions newQuestion = new Questions(DataBaseUtil.getQuestionMaxID() + 1, question2Text.Text);
+                                DataBaseUtil.SaveQuestion(newQuestion);
+                                DataBaseUtil.SaveAnswer(new Answers(answerText.Text, q1.Id, newQuestion.Id));
+                                mainForm.restart();
+                                mainForm.Show();
+                                this.Close();
+                            }
+                            catch (MySql.Data.MySqlClient.MySqlException ex)
+                            {
+                                MessageBox.Show("Так нельзя!");
+                            }
+
                         }
                         else
                         {
@@ -76,14 +90,22 @@ namespace Akinator2._0
                     {
                         if (answerText.Text != "" && question1Text.Text != "" && question2Text.Text != "")
                         {
-                            Questions newQuestion1 = new Questions(DataBaseUtil.getQuestionMaxID() + 1, question1Text.Text);
-                            DataBaseUtil.SaveQuestion(newQuestion1);
-                            Questions newQuestion2 = new Questions(DataBaseUtil.getQuestionMaxID() + 1, question2Text.Text);
-                            DataBaseUtil.SaveQuestion(newQuestion2);
-                            DataBaseUtil.SaveAnswer(new Answers(answerText.Text, newQuestion1.Id, newQuestion2.Id));
-                            mainForm.restart();
-                            mainForm.Show();
-                            this.Close();
+                            try
+                            {
+                                Questions newQuestion1 = new Questions(DataBaseUtil.getQuestionMaxID() + 1, question1Text.Text);
+                                DataBaseUtil.SaveQuestion(newQuestion1);
+                                Questions newQuestion2 = new Questions(DataBaseUtil.getQuestionMaxID() + 1, question2Text.Text);
+                                DataBaseUtil.SaveQuestion(newQuestion2);
+                                DataBaseUtil.SaveAnswer(new Answers(answerText.Text, newQuestion1.Id, newQuestion2.Id));
+                                mainForm.restart();
+                                mainForm.Show();
+                                this.Close();
+                            }                
+                            catch (MySql.Data.MySqlClient.MySqlException ex)
+                            {
+                                MessageBox.Show("Такой объект уже есть!");
+                            }
+
                         }
                         else
                         {
